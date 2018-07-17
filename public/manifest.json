@@ -3,7 +3,7 @@
   "name": "Web",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "icon.ico",
       "sizes": "64x64 32x32 24x2  4 16x16",
       "type": "image/x-icon"
     }
