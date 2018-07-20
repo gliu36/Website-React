@@ -13,30 +13,51 @@ class App extends Component {
     };
   }
 
-  handlePause = (event) => {
+  handlePauseCheckbox = (event) => {
     this.setState({
-      paused: event.target.checked,
+      paused: event.target.checked
+    });
+  }
+
+  onPauseVideo = () => {
+    this.setState({
+      paused: true
+    });
+  }
+
+  onPlayingVideo = () => {
+    this.setState({
+      paused: false
     });
   }
 
   render() {
     return (
-      <div className="App">
-        <input
-          type="checkbox"
-          id="paused"
-          checked={this.state.paused}
-          onChange={this.handlePause}
-        />
-        <div className="col s9 center-align">
-          <YouTube
-            video={"Fm5iP0S1z9w"}
-            width={640}
-            height={480}
-            autoplay={true}
-            controls={false}
-            paused={this.state.paused}
-          />
+      <div className="WatchWithFriends">
+
+        <h4 className="header">Gerry and Annie's Movie Theatre</h4>
+        <div className="player">
+          <div className="video">
+            <YouTube
+              video={"Fm5iP0S1z9w"}
+              width={640}
+              height={480}
+              autoplay={true}
+              controls={true}
+              paused={this.state.paused}
+              onPause={this.onPauseVideo}
+              onPlaying={this.onPlayingVideo}
+            />
+          </div>
+          <div className="play">
+            <input
+              type="checkbox"
+              id="play-pause"
+              checked={this.state.paused}
+              onChange={this.handlePauseCheckbox}
+            />
+            <label for="play-pause" id="play-pause-label" class="win-button"></label>
+          </div>
         </div>
       </div>
       
