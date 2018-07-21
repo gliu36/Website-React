@@ -1,0 +1,74 @@
+body {
+    background: #2A2A2A;
+    color: #FAFAFA;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-size: 4rem;
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    padding-top: 100px;
+    justify-content: center;
+}
+
+.video-window {
+    float:left;
+    box-shadow: 0 0 40px black;
+}
+
+.twitch-chat {
+    float:right;
+    box-shadow: 0 0 40px black;
+}
+
+.other-video {
+    width: 854px;
+    height: 552px;
+    border: 0px;
+}
+
+.video-url {
+    width: 300px;
+    background: #2A2A2A;
+    color: #FAFAFA;
+    border-color: #2A2A2A;
+    border-style: none;
+    box-shadow: 0 0 1px white;
+    margin-right: 10px;
+    outline: none;
+}
+
+.submit-video {
+    background-color: #111111;
+    border: 2px solid #FFFFFF;
+    border-radius: 4px;
+    color: #FFFFFF;
+    font-size: 12px;
+    cursor: pointer !important;
+    outline: none;
+}
+
+.submit-video:hover{
+    background-color:rgb(58, 58, 58);
+}
+
+.header {
+    font-size: 40px;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    text-align: center;
+}
+
+#play-pause {
+    display: none;
+}
+
+#play-pause:checked + #play-pause-label::after {
+    content: '❙❙';
+    cursor: pointer;
+}
+
+#play-pause-label::after {
+    content: '►';
+    cursor: pointer;
+}
