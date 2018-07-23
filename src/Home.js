@@ -12,7 +12,7 @@ class Home extends Component {
 			platform: "YouTube",
 			playing: false,
 			url: 'https://www.youtube.com/watch?v=Fm5iP0S1z9w',
-			chatName: "",
+			chatName: ""
 		};
 	}
 
@@ -44,6 +44,8 @@ class Home extends Component {
 				platform: "YouTube",
 				url: url
 			});
+		} else {
+			alert("Not valid URL");
 		}
 	}
 
