@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import './Home.css';
 import ReactPlayer from 'react-player'
-import YouTube from './Platforms/YouTube'
-import Twitch from './Platforms/Twitch'
-import Other from './Platforms/Other'
+import PlatformChooser from './PlatformChooser';
 
 class Home extends Component {
 
@@ -11,36 +9,18 @@ class Home extends Component {
 		super(props);
 
 		this.state = {
-			youtube: true,
-			twitch: false,
+			platform: "YouTube",
 			playing: false,
 			url: 'https://www.youtube.com/watch?v=Fm5iP0S1z9w',
-			chat: false,
 			chatName: "",
-			other: false
 		};
 	}
 
-	handlePauseCheckbox = (event) => {
-		console.log(event.target.checked);
-		this.setState({
-			playing: event.target.checked
-		});
-	}
+	handlePauseCheckbox = (event) => {this.setState({ playing: event.target.checked });}
 
-	onPauseVideo = () => {
-		console.log("pause");
-		this.setState({
-			playing: false
-		});
-	}
+	onPauseVideo = () => {this.setState({ playing: false });}
 
-	onPlayingVideo = () => {
-		console.log("playing");
-		this.setState({
-			playing: true
-		});
-	}
+	onPlayingVideo = () => {this.setState({ playing: true });}
 
 	changeVideo = (e) => {
 		e.preventDefault();
@@ -49,25 +29,20 @@ class Home extends Component {
 		if (url.includes("twitch")) {
 			let name = url.substring(url.lastIndexOf('/') + 1);
 			this.setState({
-				youtube: false,
+				platform: "Twitch",
 				url: url,
-				twitch: true,
 				chatName: name
 			});
 		} else if (url.includes("rapidvideo")) {
 			this.setState({
-				youtube: false,
-				twitch: false,
-				other: true
+				platform: "Anime",
+				url: url
 			});
 		}
 		else if (url.includes("youtube")){
 			this.setState({
-				youtube: true,
-				url: url,
-				chat: false,
-				twitch: false,
-				chatName: ""
+				platform: "YouTube",
+				url: url
 			});
 		}
 	}
@@ -76,36 +51,19 @@ class Home extends Component {
 		return (
 			<div className="WatchWithFriends">
 
-				<h4 className="header">Gerry and Annie's Movie Theater</h4>
+				<h1 className="header">Gerry and Annie's Movie Theater</h1>
 
 				<div className="player">
 					<form onSubmit={this.changeVideo}>
-						<input type="text" className="video-url" ref="link" placeholder="Paste video URL here" />
+						<input type="text" className="video-url" ref="link" spellCheck={false} placeholder="Paste video URL here" />
 						<button className="submit-video" type="submit">Submit</button>
 					</form>
 					<div className="video">
-
-						{this.state.youtube &&
-							<YouTube
-								url={this.state.url}
-								playing={this.state.playing}
-								onPlay={this.onPlayingVideo}
-								onPause={this.onPauseVideo}
-								controls={true}
-							/>}
-
-						{this.state.other &&
-							<Other
-							/>}
-
-						{this.state.twitch &&
-							<Twitch
-								url={this.state.url}
-								src={`http://www.twitch.tv/embed/${this.state.chatName}/chat`}
-								playing={this.state.playing}
-								onPlay={this.onPlayingVideo}
-								onPause={this.onPauseVideo}
-							/>}
+						<PlatformChooser
+							config={this.state}
+							onPlay={this.onPlay}
+							onPause={this.onPauseVideo}
+						/>
 					</div>
 					<div className="play">
 						<input
