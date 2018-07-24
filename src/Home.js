@@ -9,21 +9,26 @@ class Home extends Component {
 		super(props);
 
 		this.state = {
-			platform: "YouTube",
+			platform: null,
 			playing: false,
-			url: 'https://www.youtube.com/watch?v=Fm5iP0S1z9w',
-			chatName: ""
+			url: null,
+			chatName: null
 		};
 	}
 	
 	componentDidMount() {
 		this.callApi()
-		  .then(res => this.setState({ url: res.express }))
+		  .then(res => this.setState({
+			  url: res.video,
+			  platform: res.platform,
+			  playing: res.playing,
+			  chatName: res.chatName
+			}))
 		  .catch(err => console.log(err));
 	  }
 	
 	  callApi = async () => {
-		const response = await fetch('/api/hello');
+		const response = await fetch('/api/sync');
 		const body = await response.json();
 	
 		if (response.status !== 200) throw Error(body.message);
@@ -37,33 +42,6 @@ class Home extends Component {
 
 	onPlayingVideo = () => {this.setState({ playing: true });}
 
-	changeVideo = (e) => {
-		e.preventDefault();
-		let url = this.refs.link.value;
-
-		if (url.includes("twitch")) {
-			let name = url.substring(url.lastIndexOf('/') + 1);
-			this.setState({
-				platform: "Twitch",
-				url: url,
-				chatName: name
-			});
-		} else if (url.includes("rapidvideo")) {
-			this.setState({
-				platform: "Anime",
-				url: url
-			});
-		}
-		else if (url.includes("youtube")){
-			this.setState({
-				platform: "YouTube",
-				url: url
-			});
-		} else {
-			alert("Not valid URL");
-		}
-	}
-
 	render() {
 		return (
 			<div className="WatchWithFriends">
@@ -71,16 +49,16 @@ class Home extends Component {
 				<h1 className="header">Gerry and Annie's Movie Theater</h1>
 
 				<div className="player">
-					<form onSubmit={this.changeVideo}>
-						<input type="text" className="video-url" ref="link" spellCheck={false} placeholder="Paste video URL here" />
+					<form action="/api/add" method="POST">
+						<input type="text" name ="video-url" className="video-url" ref="link" spellCheck={false} placeholder="Paste video URL here" />
 						<button className="submit-video" type="submit">Submit</button>
 					</form>
 					<div className="video">
-						<PlatformChooser
+						{this.state.platform && <PlatformChooser
 							config={this.state}
 							onPlay={this.onPlay}
 							onPause={this.onPauseVideo}
-						/>
+						/>}
 					</div>
 					<div className="play">
 						<input
